@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMI Prediction</title>
+</head>
+<body>
+    <h1>Predict PMI Using Thermal Imaging Data</h1>
+    <form action="/predict" method="post">
+        <label for="Max">Max Temperature:</label>
+        <input type="text" id="Max" name="Max"><br><br>
+        <label for="Min">Min Temperature:</label>
+        <input type="text" id="Min" name="Min"><br><br>
+        <label for="Average">Average Temperature:</label>
+        <input type="text" id="Average" name="Average"><br><br>
+        <label for="Ambient">Ambient Temperature:</label>
+        <input type="text" id="Ambient" name="Ambient"><br><br>
+        <label for="Humidity">Humidity:</label>
+        <input type="text" id="Humidity" name="Humidity"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+    <h2 id="result"></h2>
+    <script>
+        document.querySelector('form').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('result').textContent = 'Predicted PMI: ' + result.PMI;
+        };
+    </script>
+</body>
+</html>
